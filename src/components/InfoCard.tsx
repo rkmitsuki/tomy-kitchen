@@ -1,0 +1,33 @@
+"use client";
+
+import type { ReactNode } from "react";
+import { motion } from "framer-motion";
+
+type InfoCardProps = {
+  icon?: ReactNode;
+  title: string;
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+};
+
+export default function InfoCard({ icon, title, children, className = "", delay = 0 }: InfoCardProps) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      whileHover={{ y: -5 }}
+      transition={{ duration: 0.45, delay, ease: "easeOut" }}
+      className={`rounded-xl border border-border bg-surface p-6 shadow-[0_18px_48px_rgba(26,26,46,0.07)] ${className}`}
+    >
+      {icon ? (
+        <div className="mb-5 grid h-12 w-12 place-items-center rounded-lg bg-primary/10 text-xl text-primary">
+          {icon}
+        </div>
+      ) : null}
+      <h2 className="text-xl font-bold text-secondary">{title}</h2>
+      <div className="mt-3 text-sm leading-6 text-muted">{children}</div>
+    </motion.article>
+  );
+}
