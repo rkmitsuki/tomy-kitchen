@@ -6,6 +6,7 @@ const read = (file) => readFile(new URL(file, import.meta.url), "utf8");
 
 test("homepage leads with fresh family-owned catering story and fixed media", async () => {
   const journey = `${await read("../src/components/HomeTruckJourney.tsx")}\n${await read("../src/components/Reveal.tsx")}`;
+  const dashboardContent = await read("../src/lib/dashboard-content.ts");
 
   assert.match(journey, /Family owned/);
   assert.match(journey, /fresh Mexican food truck/i);
@@ -15,8 +16,14 @@ test("homepage leads with fresh family-owned catering story and fixed media", as
   assert.match(journey, /Plan catering/);
   assert.match(journey, /autoPlay muted loop playsInline/);
   assert.match(journey, /object-cover/);
+  assert.match(journey, /Catering feature 1/);
+  assert.match(journey, /Catering feature 2/);
+  assert.match(journey, /Catering feature 3/);
   assert.match(journey, /intersectionRatio >= 0\.4/);
   assert.match(journey, /intersectionRatio <= 0\.1/);
+  assert.match(dashboardContent, /Homepage Catering Feature 1/);
+  assert.match(dashboardContent, /Homepage Catering Feature 2/);
+  assert.match(dashboardContent, /Homepage Catering Feature 3/);
 });
 
 test("catering and about pages mention Tomas cuisine range", async () => {

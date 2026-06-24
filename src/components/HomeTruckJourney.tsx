@@ -12,6 +12,12 @@ const images = [
   tomysImages.fishTacos,
 ];
 
+const cateringFeatureImages = [
+  { key: "Catering feature 1", src: tomysImages.cateringSalmon },
+  { key: "Catering feature 2", src: tomysImages.cateringPasta },
+  { key: "Catering feature 3", src: tomysImages.cateringSteak },
+];
+
 const proof = [
   ["Family owned", "local truck"],
   ["Fresh daily", "breakfast and lunch"],
@@ -250,9 +256,9 @@ export default function HomeTruckJourney() {
             </div>
           </Reveal>
           <div className="grid gap-4 sm:grid-cols-3">
-            {[tomysImages.cateringSalmon, tomysImages.cateringPasta, tomysImages.cateringSteak].map((src) => (
-              <Reveal key={src} variant="float">
-                <ManagedImage imageKey="Catering" fallback={src} alt="Tomy's Kitchen catering dish" className="h-72 w-full rounded-3xl border border-white/12 object-cover shadow-[0_24px_80px_rgba(0,0,0,.32)]" />
+            {cateringFeatureImages.map((image) => (
+              <Reveal key={image.key} variant="float">
+                <ManagedImage imageKey={image.key} fallback={image.src} alt="Tomy's Kitchen catering dish" className="h-72 w-full rounded-3xl border border-white/12 object-cover shadow-[0_24px_80px_rgba(0,0,0,.32)]" />
               </Reveal>
             ))}
           </div>
