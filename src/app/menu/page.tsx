@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FaPhone } from "react-icons/fa6";
 import ManagedImage from "@/components/ManagedImage";
+import ManagedCateringMenuPreview from "@/components/ManagedCateringMenuPreview";
 import ManagedMenuSections from "@/components/ManagedMenuSections";
 import OrderOnlineButton from "@/components/OrderOnlineButton";
 import Reveal from "@/components/Reveal";
-import { menuCategories } from "@/lib/menu-data";
+import { featuredItems, menuCategories } from "@/lib/menu-data";
 import { tomysImages } from "@/lib/site-content";
 
 export const metadata: Metadata = {
@@ -70,6 +71,8 @@ export default function MenuPage() {
       </section>
 
       <ManagedMenuSections fallback={menuCategories} />
+
+      <ManagedCateringMenuPreview items={featuredItems} />
 
       <section className="px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24">
         <Reveal className="mx-auto grid max-w-6xl gap-5 rounded-[2rem] border border-primary/30 bg-primary/12 p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8" variant="float">

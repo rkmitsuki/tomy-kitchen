@@ -6,6 +6,7 @@ import { FaPlus, FaTriangleExclamation, FaTrash } from "react-icons/fa6";
 import { collection, deleteDoc, doc, onSnapshot, setDoc } from "firebase/firestore";
 import type { DashboardImageOption, DashboardImageSlot, DashboardMenuItem } from "@/lib/dashboard-content";
 import { db, firebaseReady } from "@/lib/firebase-client";
+import { resolveCateringMenuHeading } from "@/lib/section-content";
 
 const baseCategories = ["Breakfast", "Tacos", "Mains", "Seafood Cocktails", "Drinks"];
 
@@ -62,15 +63,18 @@ async function fileToDataUrl(file: File) {
 
 export default function DashboardClient({
   availableImages,
+  initialCateringMenuHeading,
   initialImageSelections,
   initialMenuItems,
   imageSlots,
 }: {
   availableImages: DashboardImageOption[];
+  initialCateringMenuHeading: string;
   initialImageSelections: Record<string, string>;
   initialMenuItems: DashboardMenuItem[];
   imageSlots: DashboardImageSlot[];
 }) {
+  const [cateringMenuHeading, setCateringMenuHeading] = useState(initialCateringMenuHeading);
   const [imageSelections, setImageSelections] = useState(initialImageSelections);
   const [menuItems, setMenuItems] = useState(initialMenuItems);
   const [remoteItemIds, setRemoteItemIds] = useState<string[]>([]);
@@ -114,8 +118,12 @@ export default function DashboardClient({
     const unsubSettings = onSnapshot(doc(db, "siteContent", "settings"), (snapshot) => {
       const settings = snapshot.data();
       const images = settings?.images as Record<string, string> | undefined;
-      if (images && !sectionDirty && !savingSections) {
-        setImageSelections((current) => ({ ...current, ...images }));
+      if (!sectionDirty && !savingSections) {
+        if (images) {
+          setImageSelections((current) => ({ ...current, ...images }));
+        }
+
+        setCateringMenuHeading(resolveCateringMenuHeading(settings?.cateringMenuHeading as string | undefined));
       }
     });
 
@@ -172,9 +180,10 @@ export default function DashboardClient({
         return;
       }
 
-      setSectionStatus("Saving site photos...");
+      setSectionStatus("Saving site content...");
 
       const nextImages = { ...imageSelections };
+      const nextCateringMenuHeading = resolveCateringMenuHeading(cateringMenuHeading);
 
       for (const slot of [...globalSlots, ...sectionSlots]) {
         const file = sectionUploads[slot.key];
@@ -183,11 +192,16 @@ export default function DashboardClient({
         nextImages[slot.key] = await fileToDataUrl(file);
       }
 
-      await setDoc(doc(firestore, "siteContent", "settings"), { images: nextImages, updatedAt: new Date().toISOString() }, { merge: true });
+      await setDoc(
+        doc(firestore, "siteContent", "settings"),
+        { images: nextImages, cateringMenuHeading: nextCateringMenuHeading, updatedAt: new Date().toISOString() },
+        { merge: true },
+      );
       setImageSelections(nextImages);
+      setCateringMenuHeading(nextCateringMenuHeading);
       setSectionUploads({});
       setSectionDirty(false);
-      setSectionStatus("Site photos saved.");
+      setSectionStatus("Site content saved.");
     });
   };
 
@@ -295,7 +309,7 @@ export default function DashboardClient({
           onClick={saveSectionPhotos}
           className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-6 text-sm font-black text-white transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {savingSections ? "Saving..." : "Save site photos"}
+          {savingSections ? "Saving..." : "Save site content"}
         </button>
         <button
           type="button"
@@ -311,11 +325,27 @@ export default function DashboardClient({
 
       <section className="mt-8 rounded-3xl border border-white/10 bg-white/[0.06] p-6 shadow-[0_22px_70px_rgba(0,0,0,.22)]">
         <div className="flex flex-col gap-2">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-accent">Site photos</p>
-          <h2 className="text-3xl font-black">Homepage, about, location, and shared brand photos</h2>
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-accent">Site content</p>
+          <h2 className="text-3xl font-black">Homepage, about, location, and shared menu section content</h2>
           <p className="max-w-3xl text-sm font-semibold leading-6 text-white/62">
-            Every slot below loads from Firebase on the live site when you save it. If a slot is not saved there yet, the website falls back to the current built-in image.
+            Every field below loads from Firebase on the live site when you save it. If a field is not saved there yet, the website falls back to the current built-in content.
           </p>
+        </div>
+
+        <div className="mt-6 rounded-2xl border border-white/10 bg-black/18 p-4">
+          <label className="grid gap-2 text-sm font-black">
+            Catering menu heading
+            <input
+              value={cateringMenuHeading}
+              onChange={(event) => {
+                setSectionDirty(true);
+                setCateringMenuHeading(event.target.value);
+                setSectionStatus("");
+              }}
+              className="min-h-11 rounded-2xl border border-white/10 bg-[#11100f] px-4 text-sm font-semibold text-white outline-none transition focus:border-primary/40"
+            />
+          </label>
+          <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/46">cateringMenuHeading</p>
         </div>
 
         <div className="mt-6 grid gap-4 md:grid-cols-2 2xl:grid-cols-3">

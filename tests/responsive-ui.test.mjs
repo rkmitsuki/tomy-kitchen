@@ -113,3 +113,17 @@ test("menu items carry their own photo defaults through the menu and dashboard",
   assert.match(dashboardContent, /item\.imageSrc/);
   assert.match(footer, /Reveal/);
 });
+
+test("shared catering menu heading is editable in the dashboard and rendered on menu and catering pages", async () => {
+  const sectionContent = await read("../src/lib/section-content.ts");
+  const dashboard = await read("../src/app/dashboard/DashboardClient.tsx");
+  const menuPage = await read("../src/app/menu/page.tsx");
+  const cateringPage = await read("../src/app/group-orders/page.tsx");
+
+  assert.match(sectionContent, /defaultCateringMenuHeading/);
+  assert.match(sectionContent, /cateringMenuHeading/);
+  assert.match(dashboard, /Catering menu heading/);
+  assert.match(dashboard, /cateringMenuHeading/);
+  assert.match(menuPage, /ManagedCateringMenuPreview/);
+  assert.match(cateringPage, /ManagedCateringMenuPreview/);
+});

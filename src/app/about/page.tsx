@@ -68,10 +68,10 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-cream px-5 py-20 text-[#171615] sm:px-6 lg:px-8 lg:py-24">
+      <section className="bg-cream px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-6xl">
           <Reveal>
-            <blockquote className="max-w-5xl text-4xl font-black leading-[1.02] tracking-[-0.04em] text-[#171615] sm:text-6xl">
+            <blockquote className="max-w-5xl text-4xl font-black leading-[1.02] tracking-[-0.04em] text-primary sm:text-6xl">
               Come for the Mexican favorites people already know, then talk with Tomas if your event needs Mediterranean, Italian, American, or Continental dishes too.
             </blockquote>
           </Reveal>

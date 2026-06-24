@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { IconType } from "react-icons";
 import { FaBriefcase, FaCalendarDay, FaPhone, FaUsers } from "react-icons/fa6";
+import ManagedCateringMenuPreview from "@/components/ManagedCateringMenuPreview";
 import ManagedImage from "@/components/ManagedImage";
 import Reveal from "@/components/Reveal";
 import GroupOrderPlanner from "./GroupOrderPlanner";
@@ -127,27 +128,7 @@ export default function GroupOrdersPage() {
 
       <GroupOrderPlanner />
 
-      <section className="px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
-          <Reveal>
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-accent">Good group anchors</p>
-            <h2 className="mt-4 text-4xl font-black leading-none tracking-[-0.03em] text-secondary sm:text-6xl">Start with the reliable favorites.</h2>
-          </Reveal>
-          <div className="grid gap-4">
-            {featuredItems.map((item) => (
-              <Reveal key={item.name} className="rounded-3xl border border-border bg-surface p-5" variant="float">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <h3 className="text-2xl font-black text-secondary">{item.name}</h3>
-                    <p className="mt-2 text-sm font-semibold leading-6 text-muted">{item.description}</p>
-                  </div>
-                  <p className="text-xl font-black text-primary">{item.price}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ManagedCateringMenuPreview items={featuredItems} />
 
       <section className="bg-[var(--kitchen-night)] px-5 py-20 text-white sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[.78fr_1.22fr]">

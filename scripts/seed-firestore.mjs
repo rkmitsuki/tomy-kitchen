@@ -47,6 +47,8 @@ const orderLinks = [
   { label: "Yelp", href: "https://www.yelp.com/biz/tomys-kitchen-mountain-view-5" },
 ];
 
+const cateringMenuHeading = "Start with the reliable favorites.";
+
 const menuCategories = [
   {
     name: "Breakfast",
@@ -111,7 +113,7 @@ const defaultItemImage = (category, itemName) => {
 const db = getFirestore(app);
 const batch = writeBatch(db);
 
-batch.set(doc(db, "siteContent", "settings"), { orderLinks, images: siteImages, updatedAt: new Date().toISOString() }, { merge: true });
+batch.set(doc(db, "siteContent", "settings"), { orderLinks, images: siteImages, cateringMenuHeading, updatedAt: new Date().toISOString() }, { merge: true });
 
 for (const category of menuCategories) {
   for (const [index, item] of category.items.entries()) {
