@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import type { IconType } from "react-icons";
 import { FaClock, FaLocationDot, FaMapLocationDot, FaPhone, FaRoute } from "react-icons/fa6";
+import ManagedImage from "@/components/ManagedImage";
 import OrderOnlineButton from "@/components/OrderOnlineButton";
 import Reveal from "@/components/Reveal";
 import { tomysImages } from "@/lib/site-content";
@@ -28,7 +28,7 @@ export default function LocationPage() {
     <>
       <section className="relative isolate overflow-hidden bg-[var(--kitchen-night)] px-5 pb-16 pt-28 text-white sm:px-6 lg:px-8 lg:pb-18">
         <div className="absolute inset-0 -z-20">
-          <Image src={tomysImages.truck} alt="Tomy's Kitchen truck in Mountain View" fill priority sizes="100vw" className="object-cover opacity-40" />
+          <ManagedImage imageKey="Truck" fallback={tomysImages.truck} alt="Tomy's Kitchen truck in Mountain View" fill priority sizes="100vw" className="object-cover opacity-40" />
         </div>
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(105deg,#11100f_0%,rgba(17,16,15,.96)_45%,rgba(17,16,15,.54)_100%)]" />
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-end">
@@ -57,9 +57,11 @@ export default function LocationPage() {
       </section>
 
       <section className="px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.2fr_.8fr]">
+        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.2fr_.8fr] lg:items-stretch">
           <Reveal className="overflow-hidden rounded-[2rem] border border-border bg-surface shadow-[0_24px_80px_rgba(0,0,0,.24)]" variant="float">
-            <iframe title="Map to Tomy's Kitchen" src="https://www.google.com/maps?q=239%20W%20El%20Camino%20Real%2C%20Mountain%20View%2C%20CA%2094040&output=embed" className="h-[520px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+            <div className="h-[520px] w-full lg:h-full lg:min-h-[620px]">
+              <iframe title="Map to Tomy's Kitchen" src="https://www.google.com/maps?q=239%20W%20El%20Camino%20Real%2C%20Mountain%20View%2C%20CA%2094040&output=embed" className="block h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+            </div>
           </Reveal>
           <div className="grid gap-5">
             <Reveal className="rounded-3xl border border-border bg-surface p-6" variant="float">
@@ -100,10 +102,10 @@ export default function LocationPage() {
           </Reveal>
           <div className="grid gap-4 sm:grid-cols-2">
             <Reveal variant="float">
-              <Image src={tomysImages.truck} alt="Tomy's Kitchen truck side" width={720} height={520} className="h-72 w-full rounded-3xl border border-border object-cover" />
+              <ManagedImage imageKey="Truck" fallback={tomysImages.truck} alt="Tomy's Kitchen truck side" width={720} height={520} className="h-72 w-full rounded-3xl border border-border object-cover" />
             </Reveal>
             <Reveal variant="float">
-              <Image src={tomysImages.breakfastBurrito} alt="Tomy's Kitchen breakfast burrito" width={720} height={520} className="h-72 w-full rounded-3xl border border-border object-cover" />
+              <ManagedImage imageKey="Breakfast Burrito" fallback={tomysImages.breakfastBurrito} alt="Tomy's Kitchen breakfast burrito" width={720} height={520} className="h-72 w-full rounded-3xl border border-border object-cover" />
             </Reveal>
           </div>
         </div>

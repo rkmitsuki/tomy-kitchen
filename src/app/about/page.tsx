@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import type { IconType } from "react-icons";
 import { FaBowlFood, FaHeart, FaLeaf, FaPeopleCarryBox } from "react-icons/fa6";
+import ManagedImage from "@/components/ManagedImage";
 import Reveal from "@/components/Reveal";
 import { tomysImages } from "@/lib/site-content";
 
@@ -29,7 +29,7 @@ export default function AboutPage() {
     <>
       <section className="relative isolate overflow-hidden bg-[var(--kitchen-night)] px-5 pb-18 pt-28 text-white sm:px-6 lg:px-8 lg:pb-20">
         <div className="absolute inset-0 -z-20">
-          <Image src={tomysImages.truck} alt="Tomy's Kitchen truck" fill priority sizes="100vw" className="object-cover opacity-38" />
+          <ManagedImage imageKey="Truck" fallback={tomysImages.truck} alt="Tomy's Kitchen truck" fill priority sizes="100vw" className="object-cover opacity-38" />
         </div>
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(105deg,#11100f_0%,rgba(17,16,15,.96)_46%,rgba(17,16,15,.56)_100%)]" />
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
@@ -42,10 +42,10 @@ export default function AboutPage() {
           </Reveal>
           <Reveal className="grid gap-4 sm:grid-cols-[.82fr_1.18fr] sm:items-end" variant="float">
             <div className="overflow-hidden rounded-3xl border border-white/12 bg-white/8 p-2">
-              <Image src={tomysImages.logo} alt="Tomy's Kitchen logo" width={760} height={980} sizes="(min-width: 1024px) 22vw, 100vw" className="aspect-[4/5] rounded-2xl bg-white object-contain" />
+              <ManagedImage imageKey="Logo" fallback={tomysImages.logo} alt="Tomy's Kitchen logo" width={760} height={980} sizes="(min-width: 1024px) 22vw, 100vw" className="aspect-[4/5] rounded-2xl bg-white object-contain" />
             </div>
             <div className="overflow-hidden rounded-3xl border border-white/12 bg-white/8 p-2">
-              <Image src={tomysImages.cateringSalmon} alt="Catering dish by Chef Tomas" width={980} height={760} sizes="(min-width: 1024px) 34vw, 100vw" className="aspect-[4/3] rounded-2xl object-cover" />
+              <ManagedImage imageKey="Catering Salmon" fallback={tomysImages.cateringSalmon} alt="Catering dish by Chef Tomas" width={980} height={760} sizes="(min-width: 1024px) 34vw, 100vw" className="aspect-[4/3] rounded-2xl object-cover" />
             </div>
           </Reveal>
         </div>
@@ -71,7 +71,7 @@ export default function AboutPage() {
       <section className="bg-cream px-5 py-20 text-[#171615] sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-6xl">
           <Reveal>
-            <blockquote className="max-w-5xl text-4xl font-black leading-[1.02] tracking-[-0.04em] sm:text-6xl">
+            <blockquote className="max-w-5xl text-4xl font-black leading-[1.02] tracking-[-0.04em] text-[#171615] sm:text-6xl">
               Come for the Mexican favorites people already know, then talk with Tomas if your event needs Mediterranean, Italian, American, or Continental dishes too.
             </blockquote>
           </Reveal>
@@ -94,7 +94,7 @@ export default function AboutPage() {
 
       <section className="px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24">
         <Reveal className="mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] border border-border bg-surface lg:grid-cols-[1fr_.9fr]" variant="float">
-          <Image src={tomysImages.truck} alt="Tomy's Kitchen truck" width={1536} height={1024} sizes="(min-width: 1024px) 50vw, 100vw" className="h-80 w-full object-cover lg:h-full" />
+          <ManagedImage imageKey="Truck" fallback={tomysImages.truck} alt="Tomy's Kitchen truck" width={1536} height={1024} sizes="(min-width: 1024px) 50vw, 100vw" className="h-80 w-full object-cover lg:h-full" />
           <div className="p-6 md:p-10">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-accent">Catering and pickup</p>
             <h2 className="mt-4 text-4xl font-black leading-none tracking-[-0.03em] text-secondary">Talk through the food with Tomas.</h2>

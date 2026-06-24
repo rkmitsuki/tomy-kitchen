@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { FaArrowRight, FaClock, FaLocationDot, FaPhone, FaStar } from "react-icons/fa6";
 import ManagedImage from "@/components/ManagedImage";
@@ -287,7 +286,7 @@ export default function HomeTruckJourney() {
       <section className="px-5 py-24 sm:px-6 lg:px-8 lg:py-28">
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
           <Reveal className="overflow-hidden rounded-3xl border border-border bg-surface" variant="float">
-            <Image src={tomysImages.truck} alt="Tomy's Kitchen truck" width={1536} height={1024} sizes="(min-width: 1024px) 50vw, 100vw" className="h-[430px] w-full object-cover" />
+            <ManagedImage imageKey="Truck" fallback={tomysImages.truck} alt="Tomy's Kitchen truck" width={1536} height={1024} sizes="(min-width: 1024px) 50vw, 100vw" className="h-[430px] w-full object-cover" />
           </Reveal>
           <Reveal>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-accent">Plan your stop</p>

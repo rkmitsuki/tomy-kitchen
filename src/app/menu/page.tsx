@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { FaPhone } from "react-icons/fa6";
+import ManagedImage from "@/components/ManagedImage";
 import ManagedMenuSections from "@/components/ManagedMenuSections";
 import OrderOnlineButton from "@/components/OrderOnlineButton";
 import Reveal from "@/components/Reveal";
@@ -13,14 +13,20 @@ export const metadata: Metadata = {
   description: "Explore Tomy's Kitchen breakfast, tacos, mains, seafood cocktails, and drinks in Mountain View.",
 };
 
-const images = [tomysImages.breakfastBurrito, tomysImages.fishTacos, tomysImages.shrimpTacos, tomysImages.torta, tomysImages.cateringSalmon];
+const images = [
+  { key: "Breakfast Burrito", src: tomysImages.breakfastBurrito },
+  { key: "Fish Tacos (Tacos de Pescado)", src: tomysImages.fishTacos },
+  { key: "Shrimp Tacos", src: tomysImages.shrimpTacos },
+  { key: "Torta Oaxaqueña", src: tomysImages.torta },
+  { key: "Catering Salmon", src: tomysImages.cateringSalmon },
+];
 
 export default function MenuPage() {
   return (
     <>
       <section className="relative isolate overflow-hidden bg-[var(--kitchen-night)] px-5 pb-16 pt-28 text-white sm:px-6 lg:px-8 lg:pb-18">
         <div className="absolute inset-0 -z-20">
-          <Image src={tomysImages.breakfastBurrito} alt="Breakfast burrito from Tomy's Kitchen" fill priority sizes="100vw" className="object-cover opacity-38" />
+          <ManagedImage imageKey="Breakfast Burrito" fallback={tomysImages.breakfastBurrito} alt="Breakfast burrito from Tomy's Kitchen" fill priority sizes="100vw" className="object-cover opacity-38" />
         </div>
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(105deg,#11100f_0%,rgba(17,16,15,.96)_44%,rgba(17,16,15,.52)_100%)]" />
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
@@ -42,9 +48,9 @@ export default function MenuPage() {
             </div>
           </Reveal>
           <div className="grid grid-cols-3 gap-3">
-            {images.map((src, index) => (
-              <Reveal key={src} className={`overflow-hidden rounded-3xl border border-white/12 bg-white/8 p-2 ${index === 1 ? "mt-10" : ""}`} variant="float">
-                <Image src={src} alt="Tomy's Kitchen menu item" width={520} height={700} sizes="(min-width: 1024px) 16vw, 33vw" className="h-80 w-full rounded-2xl object-cover" />
+            {images.map((image, index) => (
+              <Reveal key={image.key} className={`overflow-hidden rounded-3xl border border-white/12 bg-white/8 p-2 ${index === 1 ? "mt-10" : ""}`} variant="float">
+                <ManagedImage imageKey={image.key} fallback={image.src} alt="Tomy's Kitchen menu item" width={520} height={700} sizes="(min-width: 1024px) 16vw, 33vw" className="h-80 w-full rounded-2xl object-cover" />
               </Reveal>
             ))}
           </div>

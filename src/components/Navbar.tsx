@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import ManagedImage from "./ManagedImage";
 import OrderOnlineButton from "./OrderOnlineButton";
 import { tomysImages } from "@/lib/site-content";
 
@@ -49,7 +49,7 @@ export default function Navbar() {
           className="flex shrink-0 items-center gap-3 text-lg font-extrabold tracking-normal text-white transition-colors sm:text-xl"
           aria-label="Tomy's Kitchen home"
         >
-          <Image src={tomysImages.logo} alt="" width={44} height={44} priority className="h-11 w-11 rounded-full border border-white/20 object-cover" />
+          <ManagedImage imageKey="Logo" fallback={tomysImages.logo} alt="" width={44} height={44} priority className="h-11 w-11 rounded-full border border-white/20 object-cover" />
           <span className="text-primary">Tomy&apos;s</span> <span className="text-cream">Kitchen</span>
         </Link>
 

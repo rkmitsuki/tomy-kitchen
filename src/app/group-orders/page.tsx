@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import type { IconType } from "react-icons";
 import { FaBriefcase, FaCalendarDay, FaPhone, FaUsers } from "react-icons/fa6";
+import ManagedImage from "@/components/ManagedImage";
 import Reveal from "@/components/Reveal";
 import GroupOrderPlanner from "./GroupOrderPlanner";
 import { featuredItems } from "@/lib/menu-data";
@@ -73,10 +73,10 @@ export default function GroupOrdersPage() {
           </Reveal>
           <Reveal className="grid gap-4 sm:grid-cols-[.82fr_1.18fr] sm:items-end" variant="float">
             <div className="overflow-hidden rounded-3xl border border-white/12 bg-white/8 p-2">
-              <Image src={tomysImages.truck} alt="Tomy's Kitchen truck" width={760} height={980} sizes="(min-width: 1024px) 22vw, 100vw" className="aspect-[4/5] rounded-2xl object-cover" />
+              <ManagedImage imageKey="Truck" fallback={tomysImages.truck} alt="Tomy's Kitchen truck" width={760} height={980} sizes="(min-width: 1024px) 22vw, 100vw" className="aspect-[4/5] rounded-2xl object-cover" />
             </div>
             <div className="overflow-hidden rounded-3xl border border-white/12 bg-white/8 p-2">
-              <Image src={tomysImages.cateringPasta} alt="Catering pasta by Chef Tomas" width={980} height={760} sizes="(min-width: 1024px) 34vw, 100vw" className="aspect-[4/3] rounded-2xl object-cover" />
+              <ManagedImage imageKey="Catering Pasta" fallback={tomysImages.cateringPasta} alt="Catering pasta by Chef Tomas" width={980} height={760} sizes="(min-width: 1024px) 34vw, 100vw" className="aspect-[4/3] rounded-2xl object-cover" />
             </div>
           </Reveal>
         </div>

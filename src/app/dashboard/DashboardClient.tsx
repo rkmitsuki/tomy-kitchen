@@ -89,6 +89,11 @@ export default function DashboardClient({
     return Array.from(new Set([...baseCategories, ...dynamic]));
   }, [menuItems]);
 
+  const globalSlots = useMemo(() => {
+    const categoryKeys = new Set(categories);
+    return imageSlots.filter((slot) => !categoryKeys.has(slot.key));
+  }, [categories, imageSlots]);
+
   const sectionSlots = useMemo(() => {
     const slotMap = new Map(imageSlots.map((slot) => [slot.key, slot]));
     return categories.map((category) => slotMap.get(category) ?? { key: category, label: `${category} section`, defaultSrc: availableImages[0]?.src ?? "" });
@@ -167,11 +172,11 @@ export default function DashboardClient({
         return;
       }
 
-      setSectionStatus("Saving section photos...");
+      setSectionStatus("Saving site photos...");
 
       const nextImages = { ...imageSelections };
 
-      for (const slot of sectionSlots) {
+      for (const slot of [...globalSlots, ...sectionSlots]) {
         const file = sectionUploads[slot.key];
         if (!file) continue;
 
@@ -182,7 +187,7 @@ export default function DashboardClient({
       setImageSelections(nextImages);
       setSectionUploads({});
       setSectionDirty(false);
-      setSectionStatus("Section photos saved.");
+      setSectionStatus("Site photos saved.");
     });
   };
 
@@ -266,7 +271,7 @@ export default function DashboardClient({
           <p className="text-xs font-black uppercase tracking-[0.22em] text-accent">For managers</p>
           <h1 className="mt-3 text-4xl font-black leading-none tracking-[-0.03em] sm:text-6xl">Manager dashboard</h1>
           <p className="mt-4 max-w-3xl text-base font-semibold leading-7 text-white/62">
-            Update the menu, choose the section photos guests see, and set the photo for each item in one place.
+            Update the menu, swap any website photo, and set each menu item image in one place.
           </p>
         </div>
         <div className={`rounded-2xl border px-5 py-4 text-sm font-bold ${managerConnected ? "border-accent/30 bg-accent/10 text-accent" : "border-primary/30 bg-primary/12 text-primary"}`}>
@@ -290,7 +295,7 @@ export default function DashboardClient({
           onClick={saveSectionPhotos}
           className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-6 text-sm font-black text-white transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {savingSections ? "Saving..." : "Save section photos"}
+          {savingSections ? "Saving..." : "Save site photos"}
         </button>
         <button
           type="button"
@@ -303,6 +308,62 @@ export default function DashboardClient({
         {sectionStatus ? <p className="self-center text-sm font-bold text-accent">{sectionStatus}</p> : null}
         {menuStatus ? <p className="self-center text-sm font-bold text-accent">{menuStatus}</p> : null}
       </div>
+
+      <section className="mt-8 rounded-3xl border border-white/10 bg-white/[0.06] p-6 shadow-[0_22px_70px_rgba(0,0,0,.22)]">
+        <div className="flex flex-col gap-2">
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-accent">Site photos</p>
+          <h2 className="text-3xl font-black">Homepage, about, location, and shared brand photos</h2>
+          <p className="max-w-3xl text-sm font-semibold leading-6 text-white/62">
+            Every slot below loads from Firebase on the live site when you save it. If a slot is not saved there yet, the website falls back to the current built-in image.
+          </p>
+        </div>
+
+        <div className="mt-6 grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
+          {globalSlots.map((slot) => (
+            <article key={slot.key} className="rounded-2xl border border-white/10 bg-black/18 p-4">
+              <img src={imageSelections[slot.key] ?? slot.defaultSrc} alt={slot.label} className="h-44 w-full rounded-2xl object-cover" />
+              <div className="mt-4">
+                <p className="text-sm font-black text-white">{slot.label}</p>
+                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-white/46">{slot.key}</p>
+              </div>
+              <label className="mt-4 grid gap-2 text-sm font-black">
+                Choose saved image
+                <select
+                  value={imageSelections[slot.key] ?? slot.defaultSrc}
+                  onChange={(event) => {
+                    setSectionDirty(true);
+                    setImageSelections((current) => ({ ...current, [slot.key]: event.target.value }));
+                    setSectionStatus("");
+                  }}
+                  className="min-h-11 rounded-2xl border border-white/10 bg-[#11100f] px-4 text-sm font-semibold text-white outline-none transition focus:border-primary/40"
+                >
+                  {availableImages.map((image) => (
+                    <option key={image.src} value={image.src}>
+                      {image.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="mt-3 grid gap-2 text-sm font-black">
+                Upload custom photo
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) => {
+                    const file = event.target.files?.[0] ?? null;
+                    if (!file) return;
+                    setSectionDirty(true);
+                    setSectionUploads((current) => ({ ...current, [slot.key]: file }));
+                    setImageSelections((current) => ({ ...current, [slot.key]: URL.createObjectURL(file) }));
+                    setSectionStatus("");
+                  }}
+                  className="text-xs font-semibold text-white/72 file:mr-3 file:rounded-full file:border-0 file:bg-primary file:px-3 file:py-2 file:text-xs file:font-black file:text-white"
+                />
+              </label>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className="mt-8 grid gap-6">
         {groupedMenu.map(({ slot, items }) => (
