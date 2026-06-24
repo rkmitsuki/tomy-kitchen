@@ -6,7 +6,7 @@ import ManagedCateringMenuPreview from "@/components/ManagedCateringMenuPreview"
 import ManagedMenuSections from "@/components/ManagedMenuSections";
 import OrderOnlineButton from "@/components/OrderOnlineButton";
 import Reveal from "@/components/Reveal";
-import { featuredItems, menuCategories } from "@/lib/menu-data";
+import { menuCategories } from "@/lib/menu-data";
 import { tomysImages } from "@/lib/site-content";
 
 export const metadata: Metadata = {
@@ -61,7 +61,7 @@ export default function MenuPage() {
       <section className="sticky top-[72px] z-30 border-y border-border bg-background/92 px-5 py-4 backdrop-blur-xl sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-6xl flex-col gap-3">
           <nav aria-label="Menu categories" className="flex gap-2 overflow-x-auto [scrollbar-width:none]">
-            {menuCategories.map((category) => (
+            {menuCategories.filter((category) => category.name !== "Catering").map((category) => (
               <a key={category.name} href={`#${category.name.toLowerCase().replaceAll(" ", "-")}`} className="shrink-0 rounded-full border border-border bg-surface px-5 py-3 text-sm font-black text-muted transition hover:border-primary hover:text-white">
                 {category.name}
               </a>
@@ -70,9 +70,9 @@ export default function MenuPage() {
         </div>
       </section>
 
-      <ManagedMenuSections fallback={menuCategories} />
+      <ManagedMenuSections fallback={menuCategories} hiddenCategories={["Catering"]} />
 
-      <ManagedCateringMenuPreview items={featuredItems} />
+      <ManagedCateringMenuPreview />
 
       <section className="px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24">
         <Reveal className="mx-auto grid max-w-6xl gap-5 rounded-[2rem] border border-primary/30 bg-primary/12 p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8" variant="float">

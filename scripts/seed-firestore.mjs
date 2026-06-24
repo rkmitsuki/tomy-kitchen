@@ -95,6 +95,14 @@ const menuCategories = [
       { name: "Jarritos", price: "$3.00", description: "Assorted Mexican fruit sodas" },
     ],
   },
+  {
+    name: "Catering",
+    items: [
+      { name: "Taco Party Tray", price: "$145.00", description: "A practical taco spread with proteins, tortillas, salsa, onions, cilantro, and setup that feeds a hungry group fast." },
+      { name: "Mediterranean Chicken Tray", price: "$165.00", description: "Herb chicken with rice, vegetables, and bright sauces for events that want a lighter catering option." },
+      { name: "Steak and Pasta Catering Pan", price: "$185.00", description: "A larger-format entree pan built for office lunches, family parties, and events that need fuller plates." },
+    ],
+  },
 ];
 
 const slugify = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");

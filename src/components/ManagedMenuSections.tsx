@@ -17,7 +17,13 @@ function resolveItemImage(item: MenuItem | ManagedMenuItem, categoryFallback: st
   return typeof item.imageSrc === "string" && item.imageSrc ? item.imageSrc : categoryFallback;
 }
 
-export default function ManagedMenuSections({ fallback }: { fallback: MenuCategory[] }) {
+export default function ManagedMenuSections({
+  fallback,
+  hiddenCategories = [],
+}: {
+  fallback: MenuCategory[];
+  hiddenCategories?: string[];
+}) {
   const [items, setItems] = useState<ManagedMenuItem[]>([]);
 
   useEffect(() => {
@@ -28,7 +34,7 @@ export default function ManagedMenuSections({ fallback }: { fallback: MenuCatego
   }, []);
 
   const categories = useMemo(() => {
-    if (!items.length) return fallback;
+    if (!items.length) return fallback.filter((category) => !hiddenCategories.includes(category.name));
     const fallbackOrder = fallback.map((category) => category.name);
     const names = Array.from(new Set(items.map((item) => item.category))).sort((left, right) => {
       const leftIndex = fallbackOrder.indexOf(left);
@@ -40,13 +46,15 @@ export default function ManagedMenuSections({ fallback }: { fallback: MenuCatego
       return leftIndex - rightIndex;
     });
 
-    return names.map((name) => ({
-      name,
-      items: items
-        .filter((item) => item.category === name)
-        .sort((left, right) => (left.sortOrder ?? 0) - (right.sortOrder ?? 0)),
-    }));
-  }, [fallback, items]);
+    return names
+      .filter((name) => !hiddenCategories.includes(name))
+      .map((name) => ({
+        name,
+        items: items
+          .filter((item) => item.category === name)
+          .sort((left, right) => (left.sortOrder ?? 0) - (right.sortOrder ?? 0)),
+      }));
+  }, [fallback, hiddenCategories, items]);
 
   return (
     <section className="px-5 py-14 sm:px-6 lg:px-8">

@@ -3,7 +3,7 @@ import { FaArrowRight, FaClock, FaLocationDot, FaPhone, FaStar } from "react-ico
 import ManagedImage from "@/components/ManagedImage";
 import OrderOnlineButton from "@/components/OrderOnlineButton";
 import Reveal from "@/components/Reveal";
-import { featuredItems } from "@/lib/menu-data";
+import { menuCategories } from "@/lib/menu-data";
 import { displayPhone, tomysImages, tomysVideos } from "@/lib/site-content";
 
 const images = [
@@ -61,28 +61,32 @@ const reviewCards = [
   },
 ];
 
+const breakfastItems = menuCategories.find((category) => category.name === "Breakfast")?.items ?? [];
+const tacoItems = menuCategories.find((category) => category.name === "Tacos")?.items ?? [];
+const mainsItems = menuCategories.find((category) => category.name === "Mains")?.items ?? [];
+
 const quickPicks = [
   {
     title: "Best seller",
-    item: featuredItems[0],
+    item: breakfastItems[2],
     note: "A filling breakfast burrito with eggs, potatoes, cheese, salsa, and your choice of meat.",
     image: tomysImages.breakfastBurrito,
   },
   {
     title: "Seafood favorite",
-    item: featuredItems[1],
+    item: tacoItems[0],
     note: "Crispy Fish tacos with cabbage slaw and creamy sauce for an easy lunch order.",
     image: tomysImages.fishTacos,
   },
   {
     title: "From the grill",
-    item: featuredItems[2],
+    item: tacoItems[1],
     note: "Shrimp tacos bring fresh flavor, a little char, and a lighter option for taco fans.",
     image: tomysImages.shrimpTacos,
   },
   {
     title: "Hearty pick",
-    item: featuredItems[3],
+    item: mainsItems[2],
     note: "The torta oaxaquena is a big, satisfying sandwich when you're ready for something heavier.",
     image: tomysImages.torta,
   },

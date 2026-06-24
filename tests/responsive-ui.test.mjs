@@ -63,9 +63,10 @@ test("dashboard is a simple site manager for photos and menu only", async () => 
   assert.match(dashboard, /removedIds/);
   assert.match(dashboard, /sectionDirty/);
   assert.match(dashboard, /menuDirty/);
+  assert.match(dashboard, /onSignOut/);
+  assert.match(dashboard, /Sign out/);
   assert.doesNotMatch(dashboard, /Photo Manager/);
   assert.doesNotMatch(dashboard, /Prototype/);
-  assert.doesNotMatch(dashboard, /onAuthStateChanged/);
 });
 
 test("firebase config and seed script support direct manager editing", async () => {
@@ -74,12 +75,22 @@ test("firebase config and seed script support direct manager editing", async () 
   const proxy = await read("../src/proxy.ts");
   const firestoreRules = await read("../firestore.rules");
   const seed = await read("../scripts/seed-firestore.mjs");
+  const dashboardAccess = await read("../src/app/dashboard/DashboardAccess.tsx");
 
   assert.match(firebaseClient, /initializeApp/);
   assert.match(firebaseClient, /getFirestore/);
+  assert.match(firebaseClient, /getAuth/);
+  assert.match(firebaseClient, /auth =/);
   assert.match(firebaseConfig, /firestore/);
   assert.match(firebaseConfig, /storage/);
-  assert.match(proxy, /DASHBOARD_BASIC_AUTH/);
+  assert.match(dashboardAccess, /onAuthStateChanged/);
+  assert.match(dashboardAccess, /signInWithEmailAndPassword/);
+  assert.match(dashboardAccess, /Sign in to dashboard/);
+  assert.match(dashboardAccess, /Email address/);
+  assert.match(dashboardAccess, /Password/);
+  assert.match(dashboardAccess, /Signed in as/);
+  assert.match(dashboardAccess, /signOut/);
+  assert.doesNotMatch(proxy, /DASHBOARD_BASIC_AUTH/);
   assert.doesNotMatch(proxy, /owner-preview/);
   assert.match(firestoreRules, /allow write: if true/);
   assert.match(seed, /tomysImages/);
@@ -126,4 +137,24 @@ test("shared catering menu heading is editable in the dashboard and rendered on 
   assert.match(dashboard, /cateringMenuHeading/);
   assert.match(menuPage, /ManagedCateringMenuPreview/);
   assert.match(cateringPage, /ManagedCateringMenuPreview/);
+});
+
+test("catering is a dedicated dashboard category rendered as stacked cards on menu and catering pages", async () => {
+  const menuData = await read("../src/lib/menu-data.ts");
+  const dashboard = await read("../src/app/dashboard/DashboardClient.tsx");
+  const menuSections = await read("../src/components/ManagedMenuSections.tsx");
+  const cateringPreview = await read("../src/components/ManagedCateringMenuPreview.tsx");
+  const menuPage = await read("../src/app/menu/page.tsx");
+  const cateringPage = await read("../src/app/group-orders/page.tsx");
+  const seed = await read("../scripts/seed-firestore.mjs");
+
+  assert.match(menuData, /name: "Catering"/);
+  assert.match(dashboard, /"Catering"/);
+  assert.match(menuSections, /hiddenCategories/);
+  assert.match(cateringPreview, /category === "Catering"/);
+  assert.match(cateringPreview, /img/);
+  assert.match(cateringPreview, /sm:grid-cols-\[160px_1fr_auto\]/);
+  assert.match(menuPage, /hiddenCategories=\{\["Catering"\]\}/);
+  assert.match(cateringPage, /ManagedCateringMenuPreview/);
+  assert.match(seed, /name: "Catering"/);
 });

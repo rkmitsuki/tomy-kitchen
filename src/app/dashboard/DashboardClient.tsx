@@ -8,7 +8,7 @@ import type { DashboardImageOption, DashboardImageSlot, DashboardMenuItem } from
 import { db, firebaseReady } from "@/lib/firebase-client";
 import { resolveCateringMenuHeading } from "@/lib/section-content";
 
-const baseCategories = ["Breakfast", "Tacos", "Mains", "Seafood Cocktails", "Drinks"];
+const baseCategories = ["Breakfast", "Tacos", "Mains", "Seafood Cocktails", "Drinks", "Catering"];
 
 function slugify(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -67,12 +67,14 @@ export default function DashboardClient({
   initialImageSelections,
   initialMenuItems,
   imageSlots,
+  onSignOut,
 }: {
   availableImages: DashboardImageOption[];
   initialCateringMenuHeading: string;
   initialImageSelections: Record<string, string>;
   initialMenuItems: DashboardMenuItem[];
   imageSlots: DashboardImageSlot[];
+  onSignOut: () => Promise<void>;
 }) {
   const [cateringMenuHeading, setCateringMenuHeading] = useState(initialCateringMenuHeading);
   const [imageSelections, setImageSelections] = useState(initialImageSelections);
@@ -291,6 +293,16 @@ export default function DashboardClient({
         <div className={`rounded-2xl border px-5 py-4 text-sm font-bold ${managerConnected ? "border-accent/30 bg-accent/10 text-accent" : "border-primary/30 bg-primary/12 text-primary"}`}>
           {managerConnected ? "Connected and ready to save" : "Firebase is not ready yet"}
         </div>
+      </div>
+
+      <div className="mt-6 flex justify-end">
+        <button
+          type="button"
+          onClick={onSignOut}
+          className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/10 px-5 text-sm font-black text-white transition hover:border-primary/40"
+        >
+          Sign out
+        </button>
       </div>
 
       {!managerConnected ? (

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import DashboardClient from "./DashboardClient";
-import { dashboardImageOptions, dashboardImageSlots, defaultImageSelections, defaultMenuItems } from "@/lib/dashboard-content";
-import { defaultCateringMenuHeading } from "@/lib/section-content";
+import DashboardAccess from "./DashboardAccess";
 
 export const metadata: Metadata = {
   title: "Owner Dashboard",
@@ -10,15 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function DashboardPage() {
-  return (
-    <main className="min-h-screen bg-[#0f0e0d] px-5 pb-12 pt-28 text-white sm:px-6 lg:px-8">
-      <DashboardClient
-        availableImages={dashboardImageOptions}
-        initialCateringMenuHeading={defaultCateringMenuHeading}
-        initialImageSelections={defaultImageSelections()}
-        initialMenuItems={defaultMenuItems()}
-        imageSlots={dashboardImageSlots}
-      />
-    </main>
-  );
+  return <DashboardAccess />;
 }

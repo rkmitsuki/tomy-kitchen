@@ -6,7 +6,6 @@ import ManagedCateringMenuPreview from "@/components/ManagedCateringMenuPreview"
 import ManagedImage from "@/components/ManagedImage";
 import Reveal from "@/components/Reveal";
 import GroupOrderPlanner from "./GroupOrderPlanner";
-import { featuredItems } from "@/lib/menu-data";
 import { displayPhone, tomysImages, tomysVideos } from "@/lib/site-content";
 
 export const metadata: Metadata = {
@@ -128,7 +127,7 @@ export default function GroupOrdersPage() {
 
       <GroupOrderPlanner />
 
-      <ManagedCateringMenuPreview items={featuredItems} />
+      <ManagedCateringMenuPreview />
 
       <section className="bg-[var(--kitchen-night)] px-5 py-20 text-white sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[.78fr_1.22fr]">
