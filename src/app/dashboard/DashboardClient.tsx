@@ -76,6 +76,8 @@ export default function DashboardClient({
   const [remoteItemIds, setRemoteItemIds] = useState<string[]>([]);
   const [sectionStatus, setSectionStatus] = useState("");
   const [menuStatus, setMenuStatus] = useState("");
+  const [sectionDirty, setSectionDirty] = useState(false);
+  const [menuDirty, setMenuDirty] = useState(false);
   const [sectionUploads, setSectionUploads] = useState<Record<string, File | null>>({});
   const [itemUploads, setItemUploads] = useState<Record<string, File | null>>({});
   const [savingSections, startSavingSections] = useTransition();
@@ -107,7 +109,7 @@ export default function DashboardClient({
     const unsubSettings = onSnapshot(doc(db, "siteContent", "settings"), (snapshot) => {
       const settings = snapshot.data();
       const images = settings?.images as Record<string, string> | undefined;
-      if (images) {
+      if (images && !sectionDirty && !savingSections) {
         setImageSelections((current) => ({ ...current, ...images }));
       }
     });
@@ -128,7 +130,7 @@ export default function DashboardClient({
         };
       });
 
-      if (items.length) {
+      if (items.length && !menuDirty && !savingMenu) {
         setMenuItems(items);
       }
     });
@@ -137,18 +139,21 @@ export default function DashboardClient({
       unsubSettings();
       unsubMenu();
     };
-  }, [availableImages]);
+  }, [availableImages, menuDirty, savingMenu, savingSections, sectionDirty]);
 
   const updateMenuItem = (id: string, field: keyof DashboardMenuItem, value: string | number | boolean) => {
+    setMenuDirty(true);
     setMenuItems((current) => current.map((item) => (item.id === id ? { ...item, [field]: value } : item)));
   };
 
   const addMenuItem = (category: string, fallbackImage: string) => {
+    setMenuDirty(true);
     setMenuItems((current) => [...current, buildNewMenuItem(current, category, fallbackImage)]);
     setMenuStatus("");
   };
 
   const removeMenuItem = (id: string) => {
+    setMenuDirty(true);
     setMenuItems((current) => current.filter((item) => item.id !== id));
     setMenuStatus("");
   };
@@ -176,6 +181,7 @@ export default function DashboardClient({
       await setDoc(doc(firestore, "siteContent", "settings"), { images: nextImages, updatedAt: new Date().toISOString() }, { merge: true });
       setImageSelections(nextImages);
       setSectionUploads({});
+      setSectionDirty(false);
       setSectionStatus("Section photos saved.");
     });
   };
@@ -248,6 +254,7 @@ export default function DashboardClient({
       setMenuItems(finalItems);
       setRemoteItemIds(finalItems.map((item) => item.id));
       setItemUploads({});
+      setMenuDirty(false);
       setMenuStatus("Menu changes saved.");
     });
   };
@@ -308,6 +315,7 @@ export default function DashboardClient({
                   <select
                     value={imageSelections[slot.key] ?? slot.defaultSrc}
                     onChange={(event) => {
+                      setSectionDirty(true);
                       setImageSelections((current) => ({ ...current, [slot.key]: event.target.value }));
                       setSectionStatus("");
                     }}
@@ -328,6 +336,7 @@ export default function DashboardClient({
                     onChange={(event) => {
                       const file = event.target.files?.[0] ?? null;
                       if (!file) return;
+                      setSectionDirty(true);
                       setSectionUploads((current) => ({ ...current, [slot.key]: file }));
                       setImageSelections((current) => ({ ...current, [slot.key]: URL.createObjectURL(file) }));
                       setSectionStatus("");
@@ -381,6 +390,7 @@ export default function DashboardClient({
                                 onChange={(event) => {
                                   const file = event.target.files?.[0] ?? null;
                                   if (!file) return;
+                                  setMenuDirty(true);
                                   setItemUploads((current) => ({ ...current, [item.id]: file }));
                                   updateMenuItem(item.id, "imageSrc", URL.createObjectURL(file));
                                   setMenuStatus("");

@@ -4,7 +4,7 @@ import { dashboardImageOptions, dashboardImageSlots, defaultImageSelections, def
 
 export const metadata: Metadata = {
   title: "Owner Dashboard",
-  description: "Internal Tomy's Kitchen site manager.",
+  description: "Tomy's Kitchen site manager for menu items and photos.",
   robots: { index: false, follow: false },
 };
 

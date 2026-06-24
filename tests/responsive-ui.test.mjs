@@ -55,6 +55,8 @@ test("dashboard is a simple site manager for photos and menu only", async () => 
   assert.match(dashboard, /toDataURL/);
   assert.match(dashboard, /deleteDoc/);
   assert.match(dashboard, /removedIds/);
+  assert.match(dashboard, /sectionDirty/);
+  assert.match(dashboard, /menuDirty/);
   assert.doesNotMatch(dashboard, /Photo Manager/);
   assert.doesNotMatch(dashboard, /Prototype/);
   assert.doesNotMatch(dashboard, /onAuthStateChanged/);
@@ -69,7 +71,6 @@ test("firebase config and seed script support direct manager editing", async () 
 
   assert.match(firebaseClient, /initializeApp/);
   assert.match(firebaseClient, /getFirestore/);
-  assert.match(firebaseClient, /getStorage/);
   assert.match(firebaseConfig, /firestore/);
   assert.match(firebaseConfig, /storage/);
   assert.match(proxy, /DASHBOARD_BASIC_AUTH/);
