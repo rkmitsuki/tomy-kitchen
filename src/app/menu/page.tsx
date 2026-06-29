@@ -14,12 +14,10 @@ export const metadata: Metadata = {
   description: "Explore Tomy's Kitchen breakfast, tacos, mains, seafood cocktails, and drinks in Mountain View.",
 };
 
-const images = [
-  { key: "Breakfast Burrito", src: tomysImages.breakfastBurrito },
-  { key: "Fish Tacos (Tacos de Pescado)", src: tomysImages.fishTacos },
+const heroImage = { key: "Breakfast Burrito", src: tomysImages.breakfastBurrito };
+const sideImages = [
   { key: "Shrimp Tacos", src: tomysImages.shrimpTacos },
   { key: "Torta Oaxaqueña", src: tomysImages.torta },
-  { key: "Catering Salmon", src: tomysImages.cateringSalmon },
 ];
 
 export default function MenuPage() {
@@ -48,10 +46,13 @@ export default function MenuPage() {
               </a>
             </div>
           </Reveal>
-          <div className="grid grid-cols-3 gap-3">
-            {images.map((image, index) => (
-              <Reveal key={image.key} className={`overflow-hidden rounded-3xl border border-white/12 bg-white/8 p-2 ${index === 1 ? "mt-10" : ""}`} variant="float">
-                <ManagedImage imageKey={image.key} fallback={image.src} alt="Tomy's Kitchen menu item" width={520} height={700} sizes="(min-width: 1024px) 16vw, 33vw" className="h-80 w-full rounded-2xl object-cover" />
+          <div className="grid grid-cols-2 gap-3">
+            <Reveal className="row-span-2 overflow-hidden rounded-3xl border border-white/12 bg-white/8 p-2" variant="float">
+              <ManagedImage imageKey={heroImage.key} fallback={heroImage.src} alt="Breakfast burrito from Tomy's Kitchen" width={520} height={700} sizes="(min-width: 1024px) 24vw, 50vw" className="h-full w-full rounded-2xl object-cover" />
+            </Reveal>
+            {sideImages.map((image) => (
+              <Reveal key={image.key} className="overflow-hidden rounded-3xl border border-white/12 bg-white/8 p-2" variant="float">
+                <ManagedImage imageKey={image.key} fallback={image.src} alt="Tomy's Kitchen menu item" width={520} height={350} sizes="(min-width: 1024px) 24vw, 50vw" className="h-36 w-full rounded-2xl object-cover sm:h-44" />
               </Reveal>
             ))}
           </div>

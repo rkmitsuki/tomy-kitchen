@@ -11,8 +11,6 @@ import Reveal from "./Reveal";
 
 type ManagedMenuItem = MenuItem & { category: string; visible?: boolean; sortOrder?: number; imageSrc?: string };
 
-const images = [tomysImages.breakfastBurrito, tomysImages.fishTacos, tomysImages.shrimpTacos, tomysImages.torta, tomysImages.cateringSalmon];
-
 function resolveItemImage(item: MenuItem | ManagedMenuItem, categoryFallback: string) {
   return typeof item.imageSrc === "string" && item.imageSrc ? item.imageSrc : categoryFallback;
 }
@@ -59,11 +57,13 @@ export default function ManagedMenuSections({
   return (
     <section className="px-5 py-14 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-6xl gap-10">
-        {categories.map((category, categoryIndex) => (
+        {categories.map((category) => {
+          const categoryFallback = category.items[0]?.imageSrc || tomysImages.breakfastBurrito;
+          return (
           <Reveal key={category.name} variant="float">
             <section id={category.name.toLowerCase().replaceAll(" ", "-")} className="scroll-mt-36 overflow-hidden rounded-[2rem] border border-border bg-surface shadow-[0_24px_80px_rgba(0,0,0,.24)]">
               <div className="relative h-36 sm:h-44">
-                <ManagedImage imageKey={category.name} fallback={images[categoryIndex % images.length]} alt={`${category.name} at Tomy's Kitchen`} className="absolute inset-0 h-full w-full object-cover" />
+                <ManagedImage imageKey={category.name} fallback={categoryFallback} alt={`${category.name} at Tomy's Kitchen`} className="absolute inset-0 h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/30 to-transparent" />
                 <div className="absolute bottom-4 left-5 right-5 sm:bottom-5 sm:left-7">
                   <p className="text-xs font-black uppercase tracking-[0.18em] text-accent">Tomy&apos;s Kitchen</p>
@@ -80,7 +80,7 @@ export default function ManagedMenuSections({
                     <article className="flex h-full flex-col gap-3 rounded-2xl border border-border bg-background/60 p-4 transition hover:border-primary/40">
                       <div className="flex items-start gap-3">
                         <img
-                          src={resolveItemImage(item, images[categoryIndex % images.length])}
+                          src={resolveItemImage(item, categoryFallback)}
                           alt={item.name}
                           className="h-16 w-16 shrink-0 rounded-xl object-cover"
                           loading="lazy"
@@ -99,7 +99,8 @@ export default function ManagedMenuSections({
               </div>
             </section>
           </Reveal>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
