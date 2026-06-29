@@ -23,36 +23,36 @@ const sideImages = [
 export default function MenuPage() {
   return (
     <>
-      <section className="relative isolate overflow-hidden bg-[var(--kitchen-night)] px-5 pb-16 pt-28 text-white sm:px-6 lg:px-8 lg:pb-18">
+      <section className="relative isolate overflow-hidden bg-[var(--kitchen-night)] px-5 pb-10 pt-24 text-white sm:px-6 lg:px-8 lg:pb-12 lg:pt-28">
         <div className="absolute inset-0 -z-20">
           <ManagedImage imageKey="Breakfast Burrito" fallback={tomysImages.breakfastBurrito} alt="Breakfast burrito from Tomy's Kitchen" fill priority sizes="100vw" className="object-cover opacity-38" />
         </div>
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(105deg,#11100f_0%,rgba(17,16,15,.96)_44%,rgba(17,16,15,.52)_100%)]" />
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
+        <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1fr_0.85fr] lg:items-center">
           <Reveal>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-accent">Fresh from Tomy&apos;s Kitchen</p>
-            <h1 className="mt-5 max-w-3xl text-4xl font-black leading-[0.94] tracking-[-0.04em] sm:text-6xl lg:text-7xl">
+            <h1 className="mt-3 max-w-xl text-3xl font-black leading-[1.02] tracking-[-0.03em] sm:text-5xl lg:text-[3.25rem]">
               Breakfast burritos, tacos, seafood, and lunch favorites in Mountain View.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg font-semibold leading-8 text-white/82">
+            <p className="mt-4 max-w-xl text-base font-semibold leading-7 text-white/82">
               Order online for pickup or delivery, or call ahead and swing by the truck on El Camino Real for a fresh meal.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <OrderOnlineButton
-                className="inline-flex min-h-13 items-center justify-center rounded-full bg-primary px-7 text-base font-black text-white transition hover:bg-primary-hover"
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-7 text-base font-black text-white transition hover:bg-primary-hover"
               />
-              <a href="tel:+16502898628" className="inline-flex min-h-13 items-center justify-center gap-3 rounded-full border border-white/24 px-7 text-base font-black text-white transition hover:bg-white/10">
+              <a href="tel:+16502898628" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-white/24 px-7 text-base font-black text-white transition hover:bg-white/10">
                 Call order <FaPhone aria-hidden />
               </a>
             </div>
           </Reveal>
           <div className="grid grid-cols-2 gap-3">
             <Reveal className="row-span-2 overflow-hidden rounded-3xl border border-white/12 bg-white/8 p-2" variant="float">
-              <ManagedImage imageKey={heroImage.key} fallback={heroImage.src} alt="Breakfast burrito from Tomy's Kitchen" width={520} height={700} sizes="(min-width: 1024px) 24vw, 50vw" className="h-full w-full rounded-2xl object-cover" />
+              <ManagedImage imageKey={heroImage.key} fallback={heroImage.src} alt="Breakfast burrito from Tomy's Kitchen" width={420} height={460} sizes="24vw" className="h-full w-full rounded-2xl object-cover" />
             </Reveal>
             {sideImages.map((image) => (
               <Reveal key={image.key} className="overflow-hidden rounded-3xl border border-white/12 bg-white/8 p-2" variant="float">
-                <ManagedImage imageKey={image.key} fallback={image.src} alt="Tomy's Kitchen menu item" width={520} height={350} sizes="(min-width: 1024px) 24vw, 50vw" className="h-36 w-full rounded-2xl object-cover sm:h-44" />
+                <ManagedImage imageKey={image.key} fallback={image.src} alt="Tomy's Kitchen menu item" width={420} height={220} sizes="24vw" className="h-24 w-full rounded-2xl object-cover sm:h-28" />
               </Reveal>
             ))}
           </div>
