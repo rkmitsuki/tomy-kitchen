@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { IconType } from "react-icons";
-import { FaBowlFood, FaHeart, FaLeaf, FaPeopleCarryBox } from "react-icons/fa6";
+import { FaBowlFood, FaClock, FaHeart, FaLeaf, FaMugHot, FaPeopleCarryBox, FaSun, FaUtensils } from "react-icons/fa6";
 import ManagedImage from "@/components/ManagedImage";
 import Reveal from "@/components/Reveal";
 import { tomysImages } from "@/lib/site-content";
@@ -18,10 +18,10 @@ const values: Array<[IconType, string, string]> = [
   [FaPeopleCarryBox, "Catering range", "For events, Tomas can also cook Mediterranean, Italian, American, and Continental dishes."],
 ];
 
-const rhythm: Array<[string, string]> = [
-  ["Morning", "Breakfast burritos, egg sandwiches, tortillas, salsa, and hot coffee energy."],
-  ["Lunch", "Tacos, quesabirria, fajitas, tortas, and seafood plates for the main rush."],
-  ["Afternoon", "Final orders, prep notes, sold-out checks, and tomorrow's smarter service."],
+const rhythm: Array<[IconType, string, string, string]> = [
+  [FaSun, "Morning", "6 AM prep", "Breakfast burritos, egg sandwiches, tortillas, salsa, and hot coffee energy."],
+  [FaUtensils, "Lunch", "11 AM rush", "Tacos, quesabirria, fajitas, tortas, and seafood plates for the main rush."],
+  [FaClock, "Afternoon", "Closing notes", "Final orders, prep notes, sold-out checks, and tomorrow's smarter service."],
 ];
 
 export default function AboutPage() {
@@ -52,28 +52,44 @@ export default function AboutPage() {
       </section>
 
       <section className="px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[.72fr_1.28fr]">
-          <Reveal>
+        <div className="mx-auto max-w-6xl">
+          <Reveal className="max-w-2xl">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-accent">The rhythm</p>
             <h2 className="mt-4 text-4xl font-black leading-none tracking-[-0.03em] text-secondary sm:text-6xl">Food truck pace. Small kitchen care.</h2>
           </Reveal>
-          <div className="grid gap-4 md:grid-cols-3">
-            {rhythm.map(([title, body]) => (
-              <Reveal key={title} className="rounded-3xl border border-border bg-surface p-6" variant="float">
-                <h3 className="text-2xl font-black text-secondary">{title}</h3>
-                <p className="mt-3 text-sm font-semibold leading-6 text-muted">{body}</p>
+          <div className="relative mt-14 grid gap-10 md:grid-cols-3 md:gap-6">
+            <div className="absolute left-7 top-7 hidden h-px w-[calc(100%-3.5rem)] bg-border md:block" aria-hidden />
+            {rhythm.map(([Icon, title, time, body], index) => (
+              <Reveal key={title} delay={index * 0.08} variant="float">
+                <div className="relative z-10 flex items-start gap-4 md:flex-col md:items-start md:gap-0">
+                  <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full border-4 border-background bg-primary text-xl text-white shadow-[0_8px_24px_rgba(228,95,60,.4)]">
+                    <Icon aria-hidden />
+                  </div>
+                  <div className="md:mt-5">
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-accent">{time}</p>
+                    <h3 className="mt-1 text-2xl font-black text-secondary">{title}</h3>
+                    <p className="mt-3 max-w-xs text-sm font-semibold leading-6 text-muted">{body}</p>
+                  </div>
+                </div>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-cream px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mx-auto max-w-6xl">
+      <section className="relative overflow-hidden bg-cream px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
+        <p aria-hidden className="pointer-events-none absolute -left-4 -top-10 select-none font-serif text-[16rem] leading-none text-primary/10 sm:text-[22rem]">
+          &ldquo;
+        </p>
+        <div className="relative mx-auto max-w-6xl">
           <Reveal>
             <blockquote className="max-w-5xl text-4xl font-black leading-[1.02] tracking-[-0.04em] text-primary sm:text-6xl">
               Come for the Mexican favorites people already know, then talk with Tomas if your event needs Mediterranean, Italian, American, or Continental dishes too.
             </blockquote>
+            <div className="mt-8 flex items-center gap-4">
+              <div className="h-px w-12 bg-primary/40" />
+              <p className="font-serif text-xl italic text-secondary">Chef Tomas Tejeda</p>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -81,11 +97,17 @@ export default function AboutPage() {
       <section className="px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {values.map(([Icon, title, body]) => (
-              <Reveal key={title} className="rounded-3xl border border-border bg-surface p-6 shadow-[0_20px_60px_rgba(0,0,0,.18)]" variant="float">
-                <div className="grid h-12 w-12 place-items-center rounded-full bg-primary/15 text-xl text-accent"><Icon aria-hidden /></div>
-                <h3 className="mt-5 text-2xl font-black text-secondary">{title}</h3>
-                <p className="mt-3 text-sm font-semibold leading-6 text-muted">{body}</p>
+            {values.map(([Icon, title, body], index) => (
+              <Reveal key={title} delay={index * 0.06} variant="float">
+                <div
+                  className={`h-full rounded-3xl border border-border bg-surface p-6 shadow-[0_20px_60px_rgba(0,0,0,.18)] transition duration-300 hover:-translate-y-1 hover:border-primary/40 ${
+                    index % 2 === 0 ? "hover:-rotate-1" : "hover:rotate-1"
+                  }`}
+                >
+                  <div className="grid h-12 w-12 place-items-center rounded-full bg-primary/15 text-xl text-accent"><Icon aria-hidden /></div>
+                  <h3 className="mt-5 text-2xl font-black text-secondary">{title}</h3>
+                  <p className="mt-3 text-sm font-semibold leading-6 text-muted">{body}</p>
+                </div>
               </Reveal>
             ))}
           </div>
