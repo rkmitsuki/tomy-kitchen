@@ -3,7 +3,7 @@ import { FaArrowRight, FaClock, FaLocationDot, FaPhone, FaStar } from "react-ico
 import ManagedImage from "@/components/ManagedImage";
 import OrderOnlineButton from "@/components/OrderOnlineButton";
 import Reveal from "@/components/Reveal";
-import { menuCategories } from "@/lib/menu-data";
+import { menuCategories, type MenuItem } from "@/lib/menu-data";
 import { displayPhone, tomysImages, tomysVideos } from "@/lib/site-content";
 
 const images = [
@@ -69,34 +69,40 @@ const reviewCards = [
 
 const breakfastItems = menuCategories.find((category) => category.name === "Breakfast")?.items ?? [];
 const tacoItems = menuCategories.find((category) => category.name === "Tacos")?.items ?? [];
-const mainsItems = menuCategories.find((category) => category.name === "Mains")?.items ?? [];
+const tortaItems = menuCategories.find((category) => category.name === "Tortas")?.items ?? [];
 
-const quickPicks = [
+const findItem = (items: MenuItem[], name: string) => items.find((item) => item.name === name);
+
+const quickPicksRaw = [
   {
     title: "Best seller",
-    item: breakfastItems[2],
+    item: findItem(breakfastItems, "Breakfast Burrito"),
     note: "A filling breakfast burrito with eggs, potatoes, cheese, salsa, and your choice of meat.",
     image: tomysImages.breakfastBurrito,
   },
   {
     title: "Seafood favorite",
-    item: tacoItems[0],
-    note: "Crispy Fish tacos with cabbage slaw and creamy sauce for an easy lunch order.",
+    item: findItem(tacoItems, "Seafood Tacos (Fish)"),
+    note: "Crispy battered fish tacos with fresh toppings for an easy lunch order.",
     image: tomysImages.fishTacos,
   },
   {
     title: "From the grill",
-    item: tacoItems[1],
-    note: "Shrimp tacos bring fresh flavor, a little char, and a lighter option for taco fans.",
+    item: findItem(tacoItems, "Tacos de Birria"),
+    note: "Birria-braised beef tacos, a weekend favorite full of flavor.",
     image: tomysImages.shrimpTacos,
   },
   {
     title: "Hearty pick",
-    item: mainsItems[2],
-    note: "The torta oaxaquena is a big, satisfying sandwich when you're ready for something heavier.",
+    item: findItem(tortaItems, "Torta Oaxaqueña"),
+    note: "The torta oaxaqueña is a big, satisfying sandwich when you're ready for something heavier.",
     image: tomysImages.torta,
   },
 ];
+
+const quickPicks = quickPicksRaw.filter(
+  (pick): pick is typeof pick & { item: MenuItem } => pick.item !== undefined,
+);
 
 export default function HomeTruckJourney() {
   return (

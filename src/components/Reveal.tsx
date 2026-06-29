@@ -9,9 +9,11 @@ type RevealProps = {
   className?: string;
   delay?: number;
   variant?: "rise" | "float";
+  /** Once revealed, stay visible instead of hiding again when scrolled out of view. Defaults to true. */
+  once?: boolean;
 };
 
-export default function Reveal({ children, className = "", delay = 0, variant = "rise" }: RevealProps) {
+export default function Reveal({ children, className = "", delay = 0, variant = "rise", once = true }: RevealProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
   const [visible, setVisible] = useState(prefersReducedMotion);
@@ -26,10 +28,11 @@ export default function Reveal({ children, className = "", delay = 0, variant = 
       ([entry]) => {
         if (entry.intersectionRatio >= 0.4) {
           setVisible(true);
+          if (once) observer.disconnect();
           return;
         }
 
-        if (entry.intersectionRatio <= 0.1) {
+        if (!once && entry.intersectionRatio <= 0.1) {
           setVisible(false);
         }
       },
@@ -38,7 +41,7 @@ export default function Reveal({ children, className = "", delay = 0, variant = 
 
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, once]);
 
   const hidden = variant === "float" ? { opacity: 0, y: 28, scale: 0.985 } : { opacity: 0, y: 22 };
   const shown = variant === "float" ? { opacity: 1, y: 0, scale: 1 } : { opacity: 1, y: 0 };
