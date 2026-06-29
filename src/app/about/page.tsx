@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { IconType } from "react-icons";
-import { FaBowlFood, FaClock, FaHeart, FaLeaf, FaMugHot, FaPeopleCarryBox, FaSun, FaUtensils } from "react-icons/fa6";
+import { FaBowlFood, FaClock, FaHeart, FaLeaf, FaPeopleCarryBox, FaQuoteLeft, FaSun, FaUtensils } from "react-icons/fa6";
 import ManagedImage from "@/components/ManagedImage";
 import Reveal from "@/components/Reveal";
 import { tomysImages } from "@/lib/site-content";
@@ -16,6 +16,14 @@ const values: Array<[IconType, string, string]> = [
   [FaHeart, "Regulars matter", "The truck is for people on lunch breaks, work routes, and family pickup runs who want food that feels personal."],
   [FaBowlFood, "Mexican first", "Breakfast burritos, tacos, seafood, mains, and drinks stay at the center of the truck menu."],
   [FaPeopleCarryBox, "Catering range", "For events, Tomas can also cook Mediterranean, Italian, American, and Continental dishes."],
+];
+
+const cuisines: Array<[string, boolean]> = [
+  ["Mexican", true],
+  ["Mediterranean", false],
+  ["Italian", false],
+  ["American", false],
+  ["Continental", false],
 ];
 
 const rhythm: Array<[IconType, string, string, string]> = [
@@ -77,20 +85,48 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-cream px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <p aria-hidden className="pointer-events-none absolute -left-4 -top-10 select-none font-serif text-[16rem] leading-none text-primary/10 sm:text-[22rem]">
+      <section className="relative overflow-hidden bg-cream px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <p aria-hidden className="pointer-events-none absolute -left-2 -top-6 select-none font-serif text-[7rem] leading-none text-[var(--kitchen-night)]/8 sm:text-[9rem]">
           &ldquo;
         </p>
-        <div className="relative mx-auto max-w-6xl">
+        <div className="relative mx-auto max-w-4xl">
           <Reveal>
-            <blockquote className="max-w-5xl text-4xl font-black leading-[1.02] tracking-[-0.04em] text-primary sm:text-6xl">
+            <div className="grid h-10 w-10 place-items-center rounded-full bg-primary/15 text-accent">
+              <FaQuoteLeft aria-hidden className="text-sm" />
+            </div>
+            <blockquote className="mt-5 max-w-3xl text-2xl font-black leading-[1.25] tracking-[-0.01em] text-secondary sm:text-3xl">
               Come for the Mexican favorites people already know, then talk with Tomas if your event needs Mediterranean, Italian, American, or Continental dishes too.
             </blockquote>
-            <div className="mt-8 flex items-center gap-4">
-              <div className="h-px w-12 bg-primary/40" />
-              <p className="font-serif text-xl italic text-secondary">Chef Tomas Tejeda</p>
+            <div className="mt-6 flex items-center gap-4">
+              <div className="h-px w-10 bg-primary/50" />
+              <p className="text-sm font-black uppercase tracking-[0.14em] text-muted">Chef Tomas Tejeda</p>
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      <section className="px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-6xl">
+          <Reveal className="max-w-2xl">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-accent">One truck, many passports</p>
+            <h2 className="mt-4 text-4xl font-black leading-none tracking-[-0.03em] text-secondary sm:text-5xl">Mexican every day. Anything for your event.</h2>
+            <p className="mt-4 text-sm font-semibold leading-6 text-muted">The truck menu stays Mexican. For catering, Tomas pulls from a wider range, stamped and ready to travel.</p>
+          </Reveal>
+          <div className="mt-10 flex flex-wrap gap-3">
+            {cuisines.map(([name, isHome]) => (
+              <span
+                key={name}
+                className={`rounded-full border px-5 py-3 text-sm font-black uppercase tracking-[0.08em] ${
+                  isHome
+                    ? "border-primary bg-primary text-white shadow-[0_8px_20px_rgba(228,95,60,.35)]"
+                    : "border-border bg-surface text-secondary"
+                }`}
+              >
+                {name}
+                {isHome ? " · home base" : ""}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
