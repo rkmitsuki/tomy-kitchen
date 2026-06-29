@@ -33,14 +33,18 @@ export default function PassportStamps() {
     setActiveIndex(step + 1);
   });
 
+  const activeStamp = stamps[activeIndex];
+
   return (
-    <div ref={sectionRef} className="relative" style={{ height: `${travelStepCount * 70}vh` }}>
-      <div className="sticky top-28 flex items-center justify-center py-6">
-        <div className="relative w-full overflow-hidden rounded-[2rem] border-2 border-dashed border-white/15 bg-[var(--kitchen-night)] bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.025)_0px,rgba(255,255,255,0.025)_2px,transparent_2px,transparent_14px)] p-8 sm:p-12">
+    <div ref={sectionRef} className="relative" style={{ height: `${travelStepCount * 60}vh` }}>
+      <div className="sticky top-0 flex min-h-screen flex-col items-center justify-center px-5">
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-accent">Now stamping</p>
+        <h3 className="mt-3 text-5xl font-black tracking-[-0.03em] text-white sm:text-6xl">{activeStamp.name}</h3>
+        <div className="relative mt-12 w-full max-w-3xl overflow-hidden rounded-[2rem] border-2 border-dashed border-white/15 bg-[var(--kitchen-night)] bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.025)_0px,rgba(255,255,255,0.025)_2px,transparent_2px,transparent_14px)] p-8 sm:p-12">
           <div className="pointer-events-none absolute left-6 top-6 text-[10px] font-black uppercase tracking-[0.3em] text-white/35">
             Tomy&apos;s Kitchen · Catering Passport
           </div>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-8 sm:mt-6 sm:justify-start sm:gap-x-6">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-8 sm:mt-6 sm:gap-x-6">
             {stamps.map((stamp, index) => {
               const isActive = stamp.home || index === activeIndex;
               return (
@@ -52,7 +56,7 @@ export default function PassportStamps() {
                   className="cursor-default select-none"
                 >
                   <div
-                    className={`relative grid h-28 w-28 place-items-center rounded-full border-[3px] text-center transition-colors duration-300 sm:h-32 sm:w-32 ${
+                    className={`relative grid h-24 w-24 place-items-center rounded-full border-[3px] text-center transition-colors duration-300 sm:h-28 sm:w-28 ${
                       stamp.home
                         ? "border-primary text-primary"
                         : isActive
@@ -67,9 +71,9 @@ export default function PassportStamps() {
                       }`}
                     />
                     <div className="flex flex-col items-center gap-1.5">
-                      <stamp.icon aria-hidden className="text-xl" />
-                      <span className="px-1 text-[10px] font-black uppercase leading-tight tracking-[0.08em]">{stamp.name}</span>
-                      {stamp.home ? <span className="text-[8px] font-black uppercase tracking-[0.18em]">Home base</span> : null}
+                      <stamp.icon aria-hidden className="text-lg" />
+                      <span className="px-1 text-[9px] font-black uppercase leading-tight tracking-[0.08em]">{stamp.name}</span>
+                      {stamp.home ? <span className="text-[7px] font-black uppercase tracking-[0.18em]">Home base</span> : null}
                     </div>
                   </div>
                 </motion.div>
