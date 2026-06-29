@@ -105,9 +105,9 @@ export default function AboutPage() {
             <h2 className="mt-4 text-4xl font-black leading-none tracking-[-0.03em] text-secondary sm:text-5xl">Mexican every day. Anything for your event.</h2>
             <p className="mt-4 text-sm font-semibold leading-6 text-muted">The truck menu stays Mexican. For catering, Tomas pulls from a wider range, stamped and ready to travel.</p>
           </Reveal>
-          <Reveal className="mt-10" variant="float">
+          <div className="mt-10">
             <PassportStamps />
-          </Reveal>
+          </div>
         </div>
       </section>
 
