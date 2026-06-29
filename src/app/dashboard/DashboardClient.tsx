@@ -217,12 +217,6 @@ export default function DashboardClient({
       imageSrc: item.imageSrc.trim(),
     }));
 
-    const invalidItem = preparedItems.find((item) => !item.name || !item.price || !item.description || !item.category || !item.imageSrc);
-    if (invalidItem) {
-      setMenuStatus("Each item needs a name, price, description, section, and photo before you save.");
-      return;
-    }
-
     setMenuItems(preparedItems);
 
     startSavingMenu(async () => {
