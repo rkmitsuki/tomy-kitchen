@@ -25,6 +25,7 @@
   --color-surface: var(--surface);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-cream: var(--cream);
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 

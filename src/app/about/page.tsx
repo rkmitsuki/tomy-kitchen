@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { IconType } from "react-icons";
 import { FaBowlFood, FaClock, FaHeart, FaLeaf, FaPeopleCarryBox, FaQuoteLeft, FaSun, FaUtensils } from "react-icons/fa6";
 import ManagedImage from "@/components/ManagedImage";
+import PassportStamps from "@/components/PassportStamps";
 import Reveal from "@/components/Reveal";
 import { tomysImages } from "@/lib/site-content";
 
@@ -16,14 +17,6 @@ const values: Array<[IconType, string, string]> = [
   [FaHeart, "Regulars matter", "The truck is for people on lunch breaks, work routes, and family pickup runs who want food that feels personal."],
   [FaBowlFood, "Mexican first", "Breakfast burritos, tacos, seafood, mains, and drinks stay at the center of the truck menu."],
   [FaPeopleCarryBox, "Catering range", "For events, Tomas can also cook Mediterranean, Italian, American, and Continental dishes."],
-];
-
-const cuisines: Array<[string, boolean]> = [
-  ["Mexican", true],
-  ["Mediterranean", false],
-  ["Italian", false],
-  ["American", false],
-  ["Continental", false],
 ];
 
 const rhythm: Array<[IconType, string, string, string]> = [
@@ -94,12 +87,12 @@ export default function AboutPage() {
             <div className="grid h-10 w-10 place-items-center rounded-full bg-primary/15 text-accent">
               <FaQuoteLeft aria-hidden className="text-sm" />
             </div>
-            <blockquote className="mt-5 max-w-3xl text-2xl font-black leading-[1.25] tracking-[-0.01em] text-secondary sm:text-3xl">
+            <blockquote className="mt-5 max-w-3xl text-2xl font-black leading-[1.25] tracking-[-0.01em] text-[#171615] sm:text-3xl">
               Come for the Mexican favorites people already know, then talk with Tomas if your event needs Mediterranean, Italian, American, or Continental dishes too.
             </blockquote>
             <div className="mt-6 flex items-center gap-4">
               <div className="h-px w-10 bg-primary/50" />
-              <p className="text-sm font-black uppercase tracking-[0.14em] text-muted">Chef Tomas Tejeda</p>
+              <p className="text-sm font-black uppercase tracking-[0.14em] text-[#171615]/60">Chef Tomas Tejeda</p>
             </div>
           </Reveal>
         </div>
@@ -112,21 +105,9 @@ export default function AboutPage() {
             <h2 className="mt-4 text-4xl font-black leading-none tracking-[-0.03em] text-secondary sm:text-5xl">Mexican every day. Anything for your event.</h2>
             <p className="mt-4 text-sm font-semibold leading-6 text-muted">The truck menu stays Mexican. For catering, Tomas pulls from a wider range, stamped and ready to travel.</p>
           </Reveal>
-          <div className="mt-10 flex flex-wrap gap-3">
-            {cuisines.map(([name, isHome]) => (
-              <span
-                key={name}
-                className={`rounded-full border px-5 py-3 text-sm font-black uppercase tracking-[0.08em] ${
-                  isHome
-                    ? "border-primary bg-primary text-white shadow-[0_8px_20px_rgba(228,95,60,.35)]"
-                    : "border-border bg-surface text-secondary"
-                }`}
-              >
-                {name}
-                {isHome ? " · home base" : ""}
-              </span>
-            ))}
-          </div>
+          <Reveal className="mt-10" variant="float">
+            <PassportStamps />
+          </Reveal>
         </div>
       </section>
 
